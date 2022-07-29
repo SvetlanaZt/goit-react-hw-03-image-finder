@@ -11,11 +11,6 @@ export default class ImageGallery extends React.Component {
 
     }
 
-//    const nameImgEvt = evt.target.alt;
-// const largeImageUrl = evt.target.largeimageurl;
-//     this.setState({ largeImageUrlEvt: largeImageUrl, nameImg: nameImgEvt })
-
-// }
      render(){
     return ( <ul className={css.imageGallery} onClick={this.props.onClickImg}>
         {this.props.imgName.map(item => (<ImageGalleryItem key={item.id} webformatURL={item.webformatURL} tags={item.tags} largeimageurl={ item.largeImageURL} />))}
