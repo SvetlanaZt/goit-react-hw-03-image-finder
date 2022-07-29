@@ -43,7 +43,7 @@ export class App extends React.Component {
 
 
   render() {
-    const { dataImgs, error, status, largeImageUrlEvt } = this.state;
+    const { dataImgs, status, largeImageUrlEvt } = this.state;
     return (
       <>
         <Searchbar onClick={this.takeNameImg} />
