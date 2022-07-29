@@ -1,0 +1,23 @@
+
+// import { render } from '@testing-library/react';
+import React from 'react';
+import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem'
+import css from './ImageGallery.module.css'
+
+export default class ImageGallery extends React.Component {
+    state = {
+        largeImageUrlEvt: '',
+        nameImg: ''
+
+    }
+
+//    const nameImgEvt = evt.target.alt;
+// const largeImageUrl = evt.target.largeimageurl;
+//     this.setState({ largeImageUrlEvt: largeImageUrl, nameImg: nameImgEvt })
+
+// }
+     render(){
+    return ( <ul className={css.imageGallery} onClick={this.props.onClickImg}>
+        {this.props.imgName.map(item => (<ImageGalleryItem key={item.id} webformatURL={item.webformatURL} tags={item.tags} largeimageurl={ item.largeImageURL} />))}
+ </ul>)
+}}
