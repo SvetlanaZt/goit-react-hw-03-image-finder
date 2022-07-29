@@ -12,7 +12,7 @@ export class App extends React.Component {
     error: null,
     status: 'idle',
     showModal: false,
-    largeImageUrlEvt: '',
+    largeImageUrl: '',
   }
   componentDidUpdate(prevProps, prevState) {
 
@@ -34,23 +34,24 @@ export class App extends React.Component {
   takeNameImg = (nameImg) => {
     this.setState({ imgName: nameImg.name })
   }
-  shoeModalToggle = (evt) => {
+  shoeModalToggle = evt => {
+    console.log(evt.target.attributes.largeimageurl.textContent)
         this.setState(prevState => ({
           showModal: !prevState.showModal,
         }))
-    this.setState({largeImageUrlEvt: evt.target.largeimageurl})
+    this.setState({largeImageUrl: evt.target.attributes.largeimageurl.textContent})
   }
 
 
   render() {
-    const { dataImgs, status, largeImageUrlEvt } = this.state;
+    const { dataImgs, status, largeImageUrl } = this.state;
     return (
       <>
         <Searchbar onClick={this.takeNameImg} />
         {status === 'resolved' && (
           <ImageGallery imgName={dataImgs.hits} onClickImg={this.shoeModalToggle} />
         )}
-        {this.state.showModal && <Modal><img alt={dataImgs.tag} src={largeImageUrlEvt} /></Modal>}
+        {this.state.showModal && <Modal alt={'cat'} src={largeImageUrl}/>}
         </>
     )
   }

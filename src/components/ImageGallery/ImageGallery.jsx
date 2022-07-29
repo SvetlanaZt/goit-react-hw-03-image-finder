@@ -6,13 +6,11 @@ import css from './ImageGallery.module.css'
 
 export default class ImageGallery extends React.Component {
     state = {
-        largeImageUrlEvt: '',
-        nameImg: ''
-
+        id: 1,
     }
 
      render(){
     return ( <ul className={css.imageGallery} onClick={this.props.onClickImg}>
-        {this.props.imgName.map(item => (<ImageGalleryItem key={item.id} webformatURL={item.webformatURL} tags={item.tags} largeimageurl={ item.largeImageURL} />))}
+        {this.props.imgName.map(item => (<ImageGalleryItem key={item.id} id={item.id} webformatURL={item.webformatURL} tags={item.tags} largeimageurl={ item.largeImageURL} />))}
  </ul>)
 }}
