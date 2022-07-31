@@ -11,13 +11,15 @@ export default class Searchbar extends React.Component {
     }
 
     onSuubmit = evt => {
-        evt.preventDefault();
+      evt.preventDefault();
       this.props.onClick(this.state)
       
       this.reset()
+      
   }
    reset = () => {
-        this.setState({name: ''})
+     this.setState({ name: '' })
+     
     }
 
 

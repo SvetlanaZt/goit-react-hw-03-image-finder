@@ -13,35 +13,45 @@ export class App extends React.Component {
     status: 'idle',
     showModal: false,
     largeImageUrl: '',
+    page: 1,
   }
   componentDidUpdate(prevProps, prevState) {
+    const prevPage = prevState.page;
+    const nextPage = this.state.page;
 
-        const prevName = prevState.imgName;
+    const prevName = prevState.imgName;
     const nextName = this.state.imgName;
-        if (prevName !== nextName) {
+
+        if (prevName !== nextName || prevPage !== nextPage) {
             const key = '27593134-a882df11ea431345edf986e72';
-            fetch(`https://pixabay.com/api/?q=${nextName}&page=1&key=${key}&image_type=photo&orientation=horizontal&per_page=12`)
+            fetch(`https://pixabay.com/api/?q=${nextName}&page=${this.state.page}&key=${key}&image_type=photo&orientation=horizontal&per_page=12`)
                 .then(data => {
                     if (data.ok) {
                         return data.json()
                     }
                     return Promise.reject(new Error(`Нет такого имени ${nextName}`))
                 })
-                .then(data => this.setState({ dataImgs: data, status: 'resolved' }))
+                .then(data => this.setState({ dataImgs: data.hits, status: 'resolved' }))
             .catch(error => this.setState({error, status: 'rejected'}))
         }
     }
   takeNameImg = (nameImg) => {
     this.setState({ imgName: nameImg.name })
   }
-  shoeModalToggle = evt => {
-    console.log(evt.target.attributes.largeimageurl.textContent)
+  showModalToggle = evt => {
         this.setState(prevState => ({
           showModal: !prevState.showModal,
         }))
-    this.setState({largeImageUrl: evt.target.attributes.largeimageurl.textContent})
+    this.setState({
+      largeImageUrl: evt.target.attributes.largeimageurl.textContent,
+    })
+    
   }
-
+  loadMore  = () => {
+    this.setState(prevState => ({
+      page: prevState.page + 1
+    }))
+   }
 
   render() {
     const { dataImgs, status, largeImageUrl } = this.state;
@@ -49,10 +59,12 @@ export class App extends React.Component {
       <>
         <Searchbar onClick={this.takeNameImg} />
         {status === 'resolved' && (
-          <ImageGallery imgName={dataImgs.hits} onClickImg={this.shoeModalToggle} />
+          <ImageGallery imgName={dataImgs} onClickImg={this.showModalToggle} takeLargeImg={this.largeImg} />
         )}
-        {this.state.showModal && <Modal alt={'cat'} src={largeImageUrl}/>}
-        </>
+        {this.state.showModal && <Modal alt={'cat'} src={largeImageUrl} closeModal={this.showModalToggle} />}
+        <button tyoe='button' onClick={this.loadMore}> Load More</button>
+      </>
+
     )
   }
 }
