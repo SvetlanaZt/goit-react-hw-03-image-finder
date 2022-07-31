@@ -1,4 +1,4 @@
-
+import PropTypes from 'prop-types';
 import React from 'react';
 import css from './modal.module.css'
 
@@ -8,7 +8,6 @@ export default class Modal extends React.Component {
   }
 
   componentDidMount() {
-    console.log('componentDidMount')
     window.addEventListener('keydown', this.handelKeyDown)
   }
   componentWillUnmount() {
@@ -35,4 +34,11 @@ export default class Modal extends React.Component {
     )
   }
 }
+
+
+Modal.propTypes = {
+        alt: PropTypes.string.isRequired,
+        src: PropTypes.string.isRequired,
+        closeModal: PropTypes.func.isRequired,
+};
 

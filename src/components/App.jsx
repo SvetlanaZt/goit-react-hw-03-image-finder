@@ -3,6 +3,8 @@ import React from 'react';
 import Searchbar from './Searchbar/Searchbar'
 import ImageGallery from './ImageGallery/ImageGallery'
 import Modal from './Modal/Modal'
+import Button from './Button/Button'
+import { Circles } from  'react-loader-spinner'
 
 
 export class App extends React.Component { 
@@ -22,7 +24,8 @@ export class App extends React.Component {
     const prevName = prevState.imgName;
     const nextName = this.state.imgName;
 
-        if (prevName !== nextName || prevPage !== nextPage) {
+    if (prevName !== nextName || prevPage !== nextPage) {
+          this.setState({status: 'panding'})
             const key = '27593134-a882df11ea431345edf986e72';
             fetch(`https://pixabay.com/api/?q=${nextName}&page=${this.state.page}&key=${key}&image_type=photo&orientation=horizontal&per_page=12`)
                 .then(data => {
@@ -36,7 +39,7 @@ export class App extends React.Component {
         }
     }
   takeNameImg = (nameImg) => {
-    this.setState({ imgName: nameImg.name })
+    this.setState({ imgName: nameImg.name, page:1 })
   }
   showModalToggle = evt => {
         this.setState(prevState => ({
@@ -55,14 +58,16 @@ export class App extends React.Component {
 
   render() {
     const { dataImgs, status, largeImageUrl } = this.state;
+   
     return (
       <>
         <Searchbar onClick={this.takeNameImg} />
         {status === 'resolved' && (
-          <ImageGallery imgName={dataImgs} onClickImg={this.showModalToggle} takeLargeImg={this.largeImg} />
+          <ImageGallery imgName={dataImgs} onClickImg={this.showModalToggle} />
         )}
+        {status==='panding' && <Circles color="#00BFFF" height={80} width={80} />}
         {this.state.showModal && <Modal alt={'cat'} src={largeImageUrl} closeModal={this.showModalToggle} />}
-        <button tyoe='button' onClick={this.loadMore}> Load More</button>
+        { dataImgs > [] && (<Button loadMore={this.loadMore}/>)}
       </>
 
     )

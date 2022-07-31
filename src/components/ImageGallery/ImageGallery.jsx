@@ -3,6 +3,7 @@
 import React from 'react';
 import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem'
 import css from './ImageGallery.module.css'
+import PropTypes from 'prop-types';
 
 export default class ImageGallery extends React.Component {
     state = {
@@ -16,3 +17,13 @@ export default class ImageGallery extends React.Component {
         {this.props.imgName.map(item => (<ImageGalleryItem key={item.id} id={item.id} webformatURL={item.webformatURL} tags={item.tags} largeimageurl={ item.largeImageURL} />))}
  </ul>)
 }}
+
+ImageGallery.propTypes = {
+    imgName: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    webformatURL: PropTypes.string.isRequired,
+    tags: PropTypes.string.isRequired,
+    largeImageURL: PropTypes.string.isRequired,
+  }).isRequired,),
+    onClickImg: PropTypes.func.isRequired,
+};
