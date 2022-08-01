@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 export default function ImageGalleryItem({id, webformatURL, tags, largeimageurl}) {
     return (
         <>
-        <li className={css.imageGalleryItem} key={id} id={id}>
+        <li className={css.imageGalleryItem} id={id}>
                 <img className={css.imageGalleryItemImage} src={webformatURL} alt={tags} largeimageurl={largeimageurl } /></li>
 
         </>)

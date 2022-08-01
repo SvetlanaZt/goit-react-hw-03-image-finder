@@ -15,16 +15,8 @@ export default class Searchbar extends React.Component {
     onSuubmit = evt => {
       evt.preventDefault();
       this.props.onClick(this.state)
-      
-      this.reset()
-      
   }
-   reset = () => {
-     this.setState({ name: '' })
-     
-    }
-
-
+  
     render() {
         return (
     <header className={css.searchbar}>

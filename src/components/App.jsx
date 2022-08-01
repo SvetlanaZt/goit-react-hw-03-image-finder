@@ -16,6 +16,7 @@ export class App extends React.Component {
     showModal: false,
     largeImageUrl: '',
     page: 1,
+    per_page: 12
   }
   componentDidUpdate(prevProps, prevState) {
     const prevPage = prevState.page;
@@ -27,7 +28,7 @@ export class App extends React.Component {
     if (prevName !== nextName || prevPage !== nextPage) {
           this.setState({status: 'panding'})
             const key = '27593134-a882df11ea431345edf986e72';
-            fetch(`https://pixabay.com/api/?q=${nextName}&page=${this.state.page}&key=${key}&image_type=photo&orientation=horizontal&per_page=12`)
+            fetch(`https://pixabay.com/api/?q=${nextName}&page=${this.state.page}&key=${key}&image_type=photo&orientation=horizontal&per_page=${this.state.per_page}`)
                 .then(data => {
                     if (data.ok) {
                         return data.json()
@@ -57,7 +58,7 @@ export class App extends React.Component {
    }
 
   render() {
-    const { dataImgs, status, largeImageUrl } = this.state;
+    const { dataImgs, status, largeImageUrl, per_page } = this.state;
    
     return (
       <>
@@ -67,9 +68,8 @@ export class App extends React.Component {
         )}
         {status==='panding' && <Circles color="#00BFFF" height={80} width={80} />}
         {this.state.showModal && <Modal alt={'cat'} src={largeImageUrl} closeModal={this.showModalToggle} />}
-        { dataImgs > [] && (<Button loadMore={this.loadMore}/>)}
+        {status === 'resolved' && dataImgs.length > 0 && dataImgs.length < per_page && (<button type ='button' onClick={this.loadMore}>on Click</button>)}
       </>
-
     )
   }
 }
