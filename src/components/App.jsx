@@ -68,8 +68,9 @@ export class App extends React.Component {
         )}
         {status==='panding' && <Circles color="#00BFFF" height={80} width={80} />}
         {this.state.showModal && <Modal alt={'cat'} src={largeImageUrl} closeModal={this.showModalToggle} />}
-        {status === 'resolved' && dataImgs.length > 0 && dataImgs.length < per_page && (<button type ='button' onClick={this.loadMore}>on Click</button>)}
+        {status === 'resolved' && dataImgs.length > 0 && dataImgs.length < per_page && (<Button loadMore={this.loadMore} />)}
       </>
+
     )
   }
 }

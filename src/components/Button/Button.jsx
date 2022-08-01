@@ -10,4 +10,3 @@ export default function Button({ loadMore }) {
 Button.propTypes = {
     loadMore: PropTypes.func.isRequired,
 };
- /* (<Button loadMore={this.loadMore}/>) */
