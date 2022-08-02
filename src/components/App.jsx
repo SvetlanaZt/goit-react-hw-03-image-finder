@@ -10,7 +10,7 @@ import { Circles } from  'react-loader-spinner'
 export class App extends React.Component { 
   state = {
     imgName: '',
-    dataImgs: null,
+    dataImgs: [],
     error: null,
     status: 'idle',
     showModal: false,
@@ -26,21 +26,24 @@ export class App extends React.Component {
     const nextName = this.state.imgName;
 
     if (prevName !== nextName || prevPage !== nextPage) {
-          this.setState({status: 'panding'})
-            const key = '27593134-a882df11ea431345edf986e72';
-            fetch(`https://pixabay.com/api/?q=${nextName}&page=${this.state.page}&key=${key}&image_type=photo&orientation=horizontal&per_page=${this.state.per_page}`)
-                .then(data => {
-                    if (data.ok) {
-                        return data.json()
-                    }
-                    return Promise.reject(new Error(`Нет такого имени ${nextName}`))
-                })
-                .then(data => this.setState({ dataImgs: data.hits, status: 'resolved' }))
+      this.setState({ status: 'panding' })
+      const key = '27593134-a882df11ea431345edf986e72';
+      fetch(`https://pixabay.com/api/?q=${nextName}&page=${this.state.page}&key=${key}&image_type=photo&orientation=horizontal&per_page=${this.state.per_page}`)
+        .then(data => {
+          if (data.ok) {
+            return data.json()
+          }
+          return Promise.reject(new Error(`Нет такого имени ${nextName}`))
+        })
+        .then(data => {this.setState(prevState => ({
+             dataImgs: [...prevState.dataImgs, ...data.hits],status: 'resolved'
+           })) })
             .catch(error => this.setState({error, status: 'rejected'}))
         }
     }
   takeNameImg = (nameImg) => {
-    this.setState({ imgName: nameImg.name, page:1 })
+    this.setState({ imgName: nameImg.name, page: 1, dataImgs: [],})
+    
   }
   showModalToggle = evt => {
         this.setState(prevState => ({
@@ -55,20 +58,20 @@ export class App extends React.Component {
     this.setState(prevState => ({
       page: prevState.page + 1
     }))
-   }
-
+  }
+  
   render() {
-    const { dataImgs, status, largeImageUrl, per_page } = this.state;
+    const { dataImgs, status, largeImageUrl} = this.state;
    
     return (
       <>
-        <Searchbar onClick={this.takeNameImg} />
+        <Searchbar onClick={this.takeNameImg} reset={this.resetState } />
         {status === 'resolved' && (
           <ImageGallery imgName={dataImgs} onClickImg={this.showModalToggle} />
         )}
         {status==='panding' && <Circles color="#00BFFF" height={80} width={80} />}
         {this.state.showModal && <Modal alt={'cat'} src={largeImageUrl} closeModal={this.showModalToggle} />}
-        {status === 'resolved' && dataImgs.length > 0 && dataImgs.length < per_page && (<Button loadMore={this.loadMore} />)}
+         {status === 'resolved' && dataImgs.length > 0 && (<Button loadMore={this.loadMore} />)}
       </>
 
     )
